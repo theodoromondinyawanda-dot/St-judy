@@ -3,66 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>St Judy Comprehensive | Digital Prospectus</title>
+    <title>St. Judy Comprehensive School | Excellence & Innovation</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="menu-icon" id="menuBtn">
-        <div class="line"></div>
-        <div class="line"></div>
-    </div>
+    <div class="menu-icon" id="menuToggle">☰</div>
 
-    <nav class="overlay-nav" id="navOverlay">
-        <ul class="nav-list">
-            <li><a href="#page1">01. The Entrance & Vision</a></li>
-            <li><a href="#page2">02. Academic Innovation</a></li>
-            <li><a href="#page3">03. The Knowledge Hub</a></li>
-            <li><hr></li>
-            <li><a href="#">Student Portal</a></li>
-            <li><a href="#">Admissions</a></li>
-            <li><a href="#">Contact Us</a></li>
-        </ul>
+    <nav class="side-menu" id="sideMenu">
+        <div class="menu-header">SJ</div>
+        <a href="#">Dashboard</a>
+        <a href="#">Student Portal</a>
+        <a href="#">Admissions</a>
+        <a href="#">Admin Side</a>
     </nav>
 
-    <div class="book-container">
-        
-        <section id="page1" class="page" style="background-image: linear-gradient(rgba(30, 58, 138, 0.2), rgba(30, 58, 138, 0.2)), url('admission_block.png');">
-            <div class="page-footer-glass">
-                <div class="text-block">
-                    <span class="page-number">01</span>
-                    <h1>Striving For Excellence</h1>
-                    <p>Welcome to St Judy Comprehensive School. Our gates open to a world where discipline meets discovery. We are committed to nurturing the leaders of tomorrow through a balanced curriculum and a supportive community environment.</p>
-                    <div class="action-row">
-                        <a href="#" class="btn-primary">Access Student Portal</a>
-                        <span class="scroll-hint">Scroll to flip page ↓</span>
-                    </div>
-                </div>
+    <main>
+        <section class="hero" id="heroSection">
+            <div class="hero-content">
+                <span class="badge">CAMPUS LIFE</span>
+                <h1 id="heroTitle">Our Classes that fit your busy life and leisure</h1>
+                <p id="heroSubtitle">Experience world-class education at St. Judy.</p>
+                <a href="#" class="cta-btn">Explore more</a>
             </div>
         </section>
 
-        <section id="page2" class="page" style="background-image: url('lab.png');">
-            <div class="page-footer-glass">
-                <div class="text-block">
-                    <span class="page-number">02</span>
-                    <h2>Scientific Discovery</h2>
-                    <p>Our modern laboratories are the heart of our academic innovation. Here, students don't just read about science; they experience it. From advanced chemistry to biological research, we provide the tools necessary for competitive global excellence.</p>
-                </div>
-            </div>
-        </section>
+        <div class="info-grid" id="cardContainer">
+            <div class="card"><h3>Loading...</h3></div>
+        </div>
+    </main>
 
-        <section id="page3" class="page" style="background-image: url('library.png');">
-            <div class="page-footer-glass">
-                <div class="text-block">
-                    <span class="page-number">03</span>
-                    <h2>The Knowledge Hub</h2>
-                    <p>A quiet sanctuary for the mind. Our library holds a vast collection of resources, both digital and physical, designed to foster a culture of lifelong learning and critical thinking. This is where our students prepare for their upcoming events and examinations.</p>
-                </div>
-            </div>
-        </section>
-
-    </div>
-
-    <script src="script.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
