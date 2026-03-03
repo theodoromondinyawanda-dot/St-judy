@@ -1,6 +1,5 @@
-// --- 1. FIREBASE CONFIGURATION ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBWLCL0nVLaTUUAXngiym6F0pkHZEo945E",
@@ -16,53 +15,51 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- 2. LIVE DATABASE LISTENER (For Admin Updates) ---
-// This ensures that when you update your Firebase Database (Firestore) 
-// from your admin side, the text on Page 3 updates instantly on GitHub.
-onSnapshot(doc(db, "school_data", "notice_board"), (doc) => {
-    if (doc.exists()) {
-        const data = doc.data();
-        const noticeParagraph = document.querySelector("#page3 p");
-        if (noticeParagraph) {
-            noticeParagraph.innerText = data.text; 
-            // Ensure your Firebase field is named 'text'
+// --- UI Logic: Slide Menu ---
+const menuToggle = document.getElementById('menuToggle');
+const sideMenu = document.getElementById('sideMenu');
+
+menuToggle.addEventListener('click', () => {
+    sideMenu.classList.toggle('active');
+    menuToggle.textContent = sideMenu.classList.contains('active') ? '✕' : '☰';
+});
+
+// --- Firebase Data Logic ---
+
+// 1. Fetch Hero Section Data (GitHub Link used here)
+const fetchHero = () => {
+    const heroRef = doc(db, "settings", "heroContent");
+    onSnapshot(heroRef, (doc) => {
+        if (doc.exists()) {
+            const data = doc.data();
+            document.getElementById('heroTitle').textContent = data.title;
+            // Using your GitHub Image link if provided in Firestore, else fallback
+            const imageUrl = data.imageUrl || 'YOUR_GITHUB_RAW_IMAGE_LINK_HERE';
+            document.getElementById('heroSection').style.backgroundImage = `url('${imageUrl}')`;
         }
-    }
-});
-
-// --- 3. MENU TOGGLE LOGIC ---
-const menuBtn = document.getElementById('menuBtn');
-const navOverlay = document.getElementById('navOverlay');
-
-menuBtn.addEventListener('click', () => {
-    navOverlay.classList.toggle('open');
-    // Wit: If the menu is open, the book stays still!
-});
-
-// Close menu when a link is clicked
-document.querySelectorAll('.nav-list a').forEach(link => {
-    link.addEventListener('click', () => {
-        navOverlay.classList.remove('open');
     });
-});
-
-// --- 4. SCROLL ANIMATION LOGIC (Intersection Observer) ---
-// This triggers the 'active' class which slides the glass shelf up.
-const observerOptions = {
-    threshold: 0.6 // Trigger when 60% of the page is visible
 };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        } else {
-            // Optional: remove if you want text to slide out when scrolling away
-            // entry.target.classList.remove('active');
-        }
-    });
-}, observerOptions);
+// 2. Fetch Interactive Cards from Firebase Database
+const fetchCards = () => {
+    const cardContainer = document.getElementById('cardContainer');
+    const cardsCol = collection(db, "infoCards");
 
-document.querySelectorAll('.page').forEach(page => {
-    observer.observe(page);
-});
+    onSnapshot(cardsCol, (snapshot) => {
+        cardContainer.innerHTML = ''; // Clear existing
+        snapshot.forEach((doc) => {
+            const cardData = doc.data();
+            const cardEl = document.createElement('div');
+            cardEl.className = 'card';
+            cardEl.innerHTML = `
+                <h3>${cardData.title}</h3>
+                <p>${cardData.description}</p>
+            `;
+            cardContainer.appendChild(cardEl);
+        });
+    });
+};
+
+// Run initializers
+fetchHero();
+fetchCards();
